@@ -16,13 +16,13 @@ import { cn } from "@/lib/utils";
 interface NavSubItem {
     label: string;
     href: string;
-    icon?: React.ComponentType<{ className?: string }>;
+    icon?: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
 }
 
 interface NavCategory {
     id: string;
     label: string;
-    icon: React.ComponentType<{ className?: string }>;
+    icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
     color: string;
     items: NavSubItem[];
 }
