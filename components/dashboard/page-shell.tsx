@@ -94,7 +94,7 @@ export function StatsCard({ label, value, sub, color = "#10B981", icon }: StatsC
 }
 
 interface StatusBadgeProps {
-    status: "active" | "stopped" | "maintenance" | "creating" | "deleting";
+    status: "active" | "stopped" | "maintenance" | "creating" | "deleting" | "error";
 }
 
 const statusConfig = {
@@ -103,6 +103,7 @@ const statusConfig = {
     maintenance: { label: "Bakım", className: "bg-yellow-100 text-yellow-700 dark:bg-yellow-950/50 dark:text-yellow-400" },
     creating: { label: "Oluşturuluyor", className: "bg-blue-100 text-blue-700 dark:bg-blue-950/50 dark:text-blue-400" },
     deleting: { label: "Siliniyor", className: "bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-400" },
+    error: { label: "Hata", className: "bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-400" },
 };
 
 export function StatusBadge({ status }: StatusBadgeProps) {
