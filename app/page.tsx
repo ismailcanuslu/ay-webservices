@@ -28,6 +28,13 @@ export default function HomePage() {
         </div>
         <div className="flex items-center gap-3">
           <Link
+            href="/register"
+            className="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
+            style={{ color: "#d1d5db", border: "1px solid rgba(255,255,255,0.15)", backgroundColor: "rgba(255,255,255,0.05)" }}
+          >
+            Kayıt Ol
+          </Link>
+          <Link
             href="/login"
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-200 hover:opacity-90"
             style={{ background: "linear-gradient(135deg, #FF9900 0%, #FF6B00 100%)" }}
@@ -60,16 +67,16 @@ export default function HomePage() {
               className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
               style={{ background: "linear-gradient(135deg, #FF9900 0%, #FF6B00 100%)" }}
             >
-              Konsola Giriş Yap
+              Oturum Aç
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <a
-              href="#"
+            <Link
+              href="/register"
               className="px-6 py-3 rounded-xl text-sm font-semibold transition-colors"
               style={{ backgroundColor: "rgba(255,255,255,0.06)", color: "#d1d5db", border: "1px solid rgba(255,255,255,0.1)" }}
             >
-              Dökümantasyon
-            </a>
+              Kayıt Ol
+            </Link>
           </div>
         </div>
 

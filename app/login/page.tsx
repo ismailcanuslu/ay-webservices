@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Eye, EyeOff, Cloud, Server, Database, Shield, Globe, Cpu, HardDrive, Mail, BarChart3, Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,7 +24,7 @@ const serviceIcons = [
 
 export default function LoginPage() {
     const router = useRouter();
-    const [form, setForm] = useState({ accountId: "", username: "", password: "" });
+    const [form, setForm] = useState({ realmName: "", email: "", password: "" });
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -31,23 +32,29 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
-        if (!form.accountId.trim()) {
-            setError("Hesap ID veya takma adı girmelisiniz.");
+
+        if (!form.realmName.trim()) {
+            setError("Hesap adını (realm) girmelisiniz.");
             return;
         }
-        if (!form.username.trim() || !form.password.trim()) {
-            setError("Kullanıcı adı ve şifre zorunludur.");
+        if (!form.email.trim()) {
+            setError("E-posta adresi zorunludur.");
             return;
         }
+        if (!form.password.trim()) {
+            setError("Şifre zorunludur.");
+            return;
+        }
+
         setLoading(true);
-        await new Promise((r) => setTimeout(r, 600));
-        const success = login(form.accountId, form.username, form.password);
-        if (success) {
+        const result = await login(form.realmName.trim(), form.email.trim(), form.password);
+        setLoading(false);
+
+        if (result.ok) {
             router.push("/dashboard");
         } else {
-            setError("Kullanıcı adı veya şifre hatalı. İpucu: admin / admin");
+            setError(result.error ?? "Giriş başarısız.");
         }
-        setLoading(false);
     };
 
     return (
@@ -83,32 +90,34 @@ export default function LoginPage() {
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div className="space-y-1.5">
-                            <Label htmlFor="accountId" className="text-sm font-medium text-gray-700">
-                                Hesap Kimliği veya Takma Ad
+                            <Label htmlFor="realmName" className="text-sm font-medium text-gray-700">
+                                Hesap Adı
                             </Label>
                             <Input
-                                id="accountId"
+                                id="realmName"
                                 type="text"
-                                placeholder="123456789012 veya takma-ad"
-                                value={form.accountId}
-                                onChange={(e) => setForm({ ...form, accountId: e.target.value })}
+                                placeholder="sirket-adi"
+                                value={form.realmName}
+                                onChange={(e) => setForm({ ...form, realmName: e.target.value })}
                                 className="h-10 border-gray-300 focus:border-orange-400 focus:ring-orange-400 text-gray-900 placeholder:text-gray-400"
                                 autoComplete="off"
+                                autoCapitalize="none"
                             />
+                            <p className="text-xs text-gray-400">Kayıt sırasında belirlediğiniz hesap adı</p>
                         </div>
 
                         <div className="space-y-1.5">
-                            <Label htmlFor="username" className="text-sm font-medium text-gray-700">
-                                Kullanıcı Adı
+                            <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                                E-posta Adresi
                             </Label>
                             <Input
-                                id="username"
-                                type="text"
-                                placeholder="Kullanıcı adınızı girin"
-                                value={form.username}
-                                onChange={(e) => setForm({ ...form, username: e.target.value })}
+                                id="email"
+                                type="email"
+                                placeholder="ornek@sirket.com"
+                                value={form.email}
+                                onChange={(e) => setForm({ ...form, email: e.target.value })}
                                 className="h-10 border-gray-300 focus:border-orange-400 focus:ring-orange-400 text-gray-900 placeholder:text-gray-400"
-                                autoComplete="username"
+                                autoComplete="email"
                             />
                         </div>
 
@@ -162,10 +171,11 @@ export default function LoginPage() {
                     </form>
 
                     <div className="mt-6 pt-6 border-t border-gray-100">
-                        <p className="text-xs text-gray-400 text-center">
-                            Test girişi: herhangi bir Account ID •{" "}
-                            <span className="font-mono bg-gray-100 px-1 py-0.5 rounded">admin</span> /{" "}
-                            <span className="font-mono bg-gray-100 px-1 py-0.5 rounded">admin</span>
+                        <p className="text-sm text-gray-500 text-center">
+                            Hesabınız yok mu?{" "}
+                            <Link href="/register" className="text-orange-600 hover:text-orange-700 font-medium transition-colors">
+                                Hemen oluşturun
+                            </Link>
                         </p>
                     </div>
                 </div>

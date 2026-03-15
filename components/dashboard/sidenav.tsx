@@ -9,7 +9,7 @@ import {
     Activity, Layers, Zap, Archive, RefreshCw, MessageSquare,
     Send, Webhook, Bot, Eye, Languages, Image, LayoutDashboard,
     Users, Settings, CreditCard, X, Menu, PanelLeftClose, PanelLeftOpen,
-    Boxes, Cog, Cpu as CpuIcon, Bolt,
+    Boxes, Cog, Cpu as CpuIcon, Bolt, User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -443,6 +443,11 @@ export function Sidenav({ onClose, collapsed = false, onCollapseToggle }: Sidena
             <div className={cn("border-t border-[hsl(var(--sidebar-border))] py-3 space-y-0.5 shrink-0 px-2", collapsed && "")}>
                 {collapsed ? (
                     <>
+                        <Tooltip label="Profilim">
+                            <button onClick={() => navigate("/dashboard/profil")} className={cn("w-full flex justify-center p-2 rounded-lg transition-colors", pathname === "/dashboard/profil" ? "bg-[hsl(var(--sidebar-accent))] text-foreground" : "text-muted-foreground hover:bg-[hsl(var(--sidebar-accent))] hover:text-foreground")}>
+                                <User className="w-4 h-4" />
+                            </button>
+                        </Tooltip>
                         <Tooltip label="Ayarlar">
                             <button onClick={() => navigate("/dashboard/ayarlar")} className="w-full flex justify-center p-2 rounded-lg text-muted-foreground hover:bg-[hsl(var(--sidebar-accent))] hover:text-foreground transition-colors">
                                 <Settings className="w-4 h-4" />
@@ -456,6 +461,9 @@ export function Sidenav({ onClose, collapsed = false, onCollapseToggle }: Sidena
                     </>
                 ) : (
                     <>
+                        <button onClick={() => navigate("/dashboard/profil")} className={cn("w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-colors", pathname === "/dashboard/profil" ? "bg-[hsl(var(--sidebar-accent))] text-foreground font-medium" : "text-muted-foreground hover:bg-[hsl(var(--sidebar-accent))] hover:text-foreground")}>
+                            <User className="w-4 h-4 shrink-0" />Profilim
+                        </button>
                         <button onClick={() => navigate("/dashboard/ayarlar")} className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-muted-foreground hover:bg-[hsl(var(--sidebar-accent))] hover:text-foreground transition-colors">
                             <Settings className="w-4 h-4 shrink-0" />Ayarlar
                         </button>

@@ -12,7 +12,7 @@ import {
     DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { getUser, logout, type AuthUser } from "@/lib/auth";
+import { getUser, logout, getInitials, ROLE_LABELS, type AuthUser } from "@/lib/auth";
 import { SidenavToggle } from "@/components/dashboard/sidenav";
 import { cn } from "@/lib/utils";
 
@@ -171,11 +171,11 @@ export function Header({ onMenuToggle }: HeaderProps) {
                         <button className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-accent transition-colors text-sm">
                             <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
                                 style={{ background: "linear-gradient(135deg, #FF9900 0%, #FF6B00 100%)" }}>
-                                {user?.username?.charAt(0).toUpperCase() || "A"}
+                                {user ? getInitials(user) : "AY"}
                             </div>
                             <div className="hidden sm:flex flex-col text-left leading-tight">
-                                <span className="font-medium text-xs">{user?.username || "admin"}</span>
-                                <span className="text-xs text-muted-foreground truncate max-w-[100px]">{user?.accountId || "123456789012"}</span>
+                                <span className="font-medium text-xs">{user?.fullName || user?.email || "Kullanıcı"}</span>
+                                <span className="text-xs text-muted-foreground truncate max-w-[120px]">{user ? ROLE_LABELS[user.primaryRole] ?? user.primaryRole : ""}</span>
                             </div>
                             <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
                         </button>
@@ -183,13 +183,16 @@ export function Header({ onMenuToggle }: HeaderProps) {
                     <DropdownMenuContent align="end" className="w-60">
                         <DropdownMenuLabel className="font-normal">
                             <div className="flex items-center gap-3 py-1">
-                                <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white"
+                                <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
                                     style={{ background: "linear-gradient(135deg, #FF9900 0%, #FF6B00 100%)" }}>
-                                    {user?.username?.charAt(0).toUpperCase() || "A"}
+                                    {user ? getInitials(user) : "AY"}
                                 </div>
-                                <div>
-                                    <p className="text-sm font-semibold">{user?.username || "admin"}</p>
-                                    <p className="text-xs text-muted-foreground">Hesap: {user?.accountId || "123456789012"}</p>
+                                <div className="min-w-0">
+                                    <p className="text-sm font-semibold truncate">{user?.fullName || user?.email}</p>
+                                    <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                                    <span className="inline-block mt-0.5 text-[10px] px-1.5 py-0.5 rounded-full font-medium" style={{ background: "rgba(255,153,0,0.15)", color: "#FF9900" }}>
+                                        {user ? ROLE_LABELS[user.primaryRole] ?? user.primaryRole : ""}
+                                    </span>
                                 </div>
                             </div>
                         </DropdownMenuLabel>
